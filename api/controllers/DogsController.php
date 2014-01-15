@@ -6,14 +6,16 @@ class DogsController{
 	}
 
 	public function actionFindUsers(){
-		Api::response(200, array('Get all users'));
+		$data_model = new Data;
+		$data['Users'] = $data_model->getUsers();
+		Api::response(200, $data);
 	}
 
 	public function actionCreateUser(){
 		if(isset($_POST['name']) && isset($_POST['firstname']) && isset($_POST['email']) && isset($_POST['pass'])){
 			$data = array('Create user with name ' . $_POST['name'] . ' and email ' . $_POST['email']);
 			$data_model = new Data;
-			$data_model->createUser($_POST['name'],$_POST['firstname'],$_POST['email'],$_POST['pass']);
+			$data['Status'] = $data_model->createUser($_POST['name'],$_POST['firstname'],$_POST['email'],md5($_POST['pass']));
 			Api::response(200, $data);
 		}
 		else{
@@ -22,7 +24,10 @@ class DogsController{
 	}
 
 	public function actionFindOneUser(){
-		$data = array('Find one user with name: ' . F3::get('PARAMS.id'));
+		$url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$id = basename(parse_url($url, PHP_URL_PATH));
+		$data_model = new Data;
+		$data['User'] = $data_model->getUser($id);
 		Api::response(200, $data);
 	}
 
@@ -37,12 +42,16 @@ class DogsController{
 	}
 
 	public function actionFindMovies(){
-		Api::response(200, array('Get all Movies'));
+		$data_model = new Data;
+		$data['Movies'] = $data_model->getMovies();
+		Api::response(200, $data);
 	}
 
 	public function actionCreateMovie(){
 		if(isset($_POST['name'])){
 			$data = array('Create Movie with name ' . $_POST['name']);
+			$data_model = new Data;
+			$data['Status'] = $data_model->createMovie($_POST['name'],$_POST['release'],$_POST['synopsis']);
 			Api::response(200, $data);
 		}
 		else{
@@ -51,7 +60,10 @@ class DogsController{
 	}
 
 	public function actionFindOneMovie(){
-		$data = array('Find one Movie with name: ' . F3::get('PARAMS.id'));
+		$url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$id = basename(parse_url($url, PHP_URL_PATH));
+		$data_model = new Data;
+		$data['Movie'] = $data_model->getMovie($id);
 		Api::response(200, $data);
 	}
 
