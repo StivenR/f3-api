@@ -22,7 +22,8 @@
 	/*
 	*Update User
 	*/
-	public function updateUser($name,$firstname,$email,$pass){
+	public function updateUser($id,$values){
+		$user = $this->getUser($id);
 		$this->db->exec('UPDATE users WHERE VALUES("","'.$name.'","'.$firstname.'","'.$email.'","'.md5($pass).'")');
 	}
 
@@ -47,8 +48,9 @@
 	*Delete User
 	*/
 	public function deleteUser($id){
-		$status = $this->db->exec('DELETE FROM users WHERE users.id = "' . $id . '"');
-		return $status;
+		$item = $this->getUser($id);
+		$this->db->exec('DELETE FROM users WHERE users.id = "' . $id . '"');
+		return $item;
 	}
 
 	/*
@@ -67,7 +69,8 @@
 	/*
 	*Update Movie
 	*/
-	public function updateMovie($name,$firstname,$email,$pass){
+	public function updateMovie($id, $values){
+		$movie = $this->$getMovie($id);
 	}
 
 	/*
@@ -89,8 +92,9 @@
 	/*
 	*Delete Movie
 	*/
-	public function deleteMovie($name){
-		$status = $this->db->exec('DELETE FROM movies WHERE movies.id = "' . $id . '"');
-		return $status;
+	public function deleteMovie($id){
+		$item = $this->getMovie($id);
+		$this->db->exec('DELETE FROM movies WHERE movies.id = "' . $id . '"');
+		return $item;
 	}
 }

@@ -24,20 +24,25 @@ class DogsController{
 	}
 
 	public function actionFindOneUser(){
-		$url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$id = basename(parse_url($url, PHP_URL_PATH));
 		$data_model = new Data;
+		$id = F3::get('PARAMS.id');
 		$data['User'] = $data_model->getUser($id);
 		Api::response(200, $data);
 	}
 
 	public function actionUpdateUser(){
-		$data = array('Update user with name: ' . F3::get('PARAMS.id'));
+		$id = F3::get('PARAMS.id');
+		$values = array('name'=>F3::get('PUT.name'),'firstname'=>F3::get('PUT.firstname'),'email'=>F3::get('PUT.email'),'pass'=>md5(F3::get('PUT.pass'));
+		$data_model = new Data;
+		$data['Movie'] = $data_model->getMovie($id,$values);
 		Api::response(200, $data);
 	}
 
 	public function actionDeleteUser(){
-		$data = array('Delete user with name: ' . F3::get('PARAMS.id'));
+		$id = F3::get('PARAMS.id');
+		$data_model = new Data;
+		$data['User'] = $data_model->deleteUser($id);
+		$data['Status'] = 'Delete user with name: ' . $id;
 		Api::response(200, $data);
 	}
 
@@ -60,20 +65,25 @@ class DogsController{
 	}
 
 	public function actionFindOneMovie(){
-		$url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$id = basename(parse_url($url, PHP_URL_PATH));
+		$id = F3::get('PARAMS.id');
 		$data_model = new Data;
 		$data['Movie'] = $data_model->getMovie($id);
 		Api::response(200, $data);
 	}
 
 	public function actionUpdateMovie(){
-		$data = array('Update Movie with name: ' . F3::get('PARAMS.id'));
+		$id = F3::get('PARAMS.id');
+		$values = array('name'=>F3::get('PUT.name'),'release'=>F3::get('PUT.release'),'date'=>F3::get('PUT.date'),'synopsis'=>F3::get('PUT.synopsis'));
+		$data_model = new Data;
+		$data['Movie'] = $data_model->getMovie($id,$values);
 		Api::response(200, $data);
 	}
 
 	public function actionDeleteMovie(){
-		$data = array('Delete Movie with name: ' . F3::get('PARAMS.id'));
+		$id = F3::get('PARAMS.id');
+		$data_model = new Data;
+		$data['Movie'] = $data_model->deleteMovie($id);
+		$data['Status'] = 'Delete Movie with id: ' . $id;
 		Api::response(200, $data);
 	}
 }
